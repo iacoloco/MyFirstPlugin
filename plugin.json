@@ -1,0 +1,28 @@
+{
+  "slug": "MyFirstPlugin",
+  "name": "My First Plugin",
+  "version": "2.0.0",
+  "license": "MIT",
+  "brand": "My First Plugin",
+  "author": "Armado Iachini",
+  "authorEmail": "iachiniarmando@gmail.com",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "MyModule",
+      "name": "Sine Oscillator",
+      "description": "My First Plugin, i am super exited !!!",
+      "tags": [
+        "Oscillator",
+        "VCO",
+        "Generator",
+        "Sine"
+      ]
+    }
+  ]
+}
