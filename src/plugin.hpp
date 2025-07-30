@@ -4,9 +4,9 @@
 
 using namespace rack;
 
-// Declare the Plugin, defined in plugin.cpp
+// Declare the Plugin globally , defined in plugin.cpp
 extern Plugin* pluginInstance;
 
-// Declare each Model, defined in each module source file
-extern rack::plugin::Model* modelMyModule;
+// Declare each Model globally, defined in each module source file
+extern rack::plugin::Model* modelMyOsc;
 

@@ -1,17 +1,17 @@
-#include "plugin.hpp"
+ #include "plugin.hpp"
 
 
 Plugin* pluginInstance;
 
 
 
-
+//Initialiaze a Plugin
 void init(Plugin* p) {
 	pluginInstance = p;
 
 	// Add modules here
 
-    p->addModel(modelMyModule);
+    p->addModel(modelMyOsc);
 
 
 	// Any other plugin initialization may go here.

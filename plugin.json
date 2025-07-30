@@ -1,5 +1,5 @@
 {
-  "slug": "MyFirstPlugin",
+  "slug": "MyOsc",
   "name": "My First Plugin",
   "version": "2.0.0",
   "license": "MIT",
@@ -14,9 +14,9 @@
   "changelogUrl": "",
   "modules": [
     {
-      "slug": "MyModule",
+      "slug": "MyOsc",
       "name": "Sine Oscillator",
-      "description": "My First Plugin, i am super exited !!!",
+      "description": "Starting my Final Project!!",
       "tags": [
         "Oscillator",
         "VCO",
