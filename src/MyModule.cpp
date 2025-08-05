@@ -68,13 +68,15 @@ struct MyModuleWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.24, 46.063)), module, MyOsc::PITCH_PARAM));
+		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(24.600, 11.500)), module, MyOsc::BLINK_LIGHT));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.24, 77.478)), module, MyOsc::PITCH_INPUT));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(25.00,  41.257)), module, MyOsc::PITCH_PARAM));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.24, 108.713)), module, MyOsc::SINE_OUTPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(25.00, 81.976)), module, MyOsc::PITCH_INPUT));
 
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(15.24, 25.81)), module, MyOsc::BLINK_LIGHT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(25.00, 100.929)), module, MyOsc::SINE_OUTPUT));
+
+		
 	}
 };
 
