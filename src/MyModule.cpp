@@ -31,12 +31,16 @@ struct MyOsc : Module {
 
     // THE ACTUAL DSP CODE!!!!!!!!!!!!!!!!!!!!
 
+
+
+    //This function run 48000 times x second meaning each sample is taken at 0.0000208 seconds (1/48000) 
     void process(const ProcessArgs &args) override {
         // Compute the frequency from the pitch parameter and input
         float pitch = params[PITCH_PARAM].getValue();
         pitch += inputs[PITCH_INPUT].getVoltage();
         // The default frequency is C4 = 261.6256 Hz
         float freq = dsp::FREQ_C4 * std::pow(2.f, pitch);
+		
 
         // Accumulate the phase
         phase += freq * args.sampleTime;
@@ -44,8 +48,20 @@ struct MyOsc : Module {
             phase -= 1.f;
 
         // Compute the sine output
-        float sine = std::sin(2.f * M_PI * phase);
-        outputs[SINE_OUTPUT].setVoltage(5.f * sine);
+        //float sine = std::sin(2.f * M_PI * phase) + 0.5f * std::sin(2.f * M_PI * (2*phase)) + 0.25 * std::sin(2.f * M_PI * (3*phase)); 
+		// sin max = 1 + 0.5 + 0.25 = 1.75
+		// volt max = 1.75 * 5 = 8.75.
+		// outputs[SINE_OUTPUT].setVoltage((5.f * sine)/1.75f);
+
+		//-----------------------------------------------------
+
+		//Task 2: create a triangle wave.
+		//Hint Don't need sin function
+
+		float triangleWave = 4.f * std::abs(phase - 0.5f) - 1.f;
+		outputs[SINE_OUTPUT].setVoltage(5.f * triangleWave);
+
+
 
         // Blink light at 1Hz
         blinkPhase += args.sampleTime;
@@ -70,7 +86,7 @@ struct MyModuleWidget : ModuleWidget {
 
 		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(24.600, 11.500)), module, MyOsc::BLINK_LIGHT));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(25.00,  41.257)), module, MyOsc::PITCH_PARAM));
+		addParam(createParamCentered<SynthTechAlco>(mm2px(Vec(25.00,  41.257)), module, MyOsc::PITCH_PARAM));
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(25.00, 81.976)), module, MyOsc::PITCH_INPUT));
 
