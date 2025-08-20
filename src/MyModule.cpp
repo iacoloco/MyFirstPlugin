@@ -28,6 +28,9 @@ static inline float polyBLEP (float phase , float dt){
 struct MyOsc : Module {
     float phase = 0.f;
     float blinkPhase = 0.f;
+	//Triangle current state:
+	float triangleState = 0;
+
     
 	enum ParamId {
 		PITCH_PARAM,
@@ -93,13 +96,10 @@ struct MyOsc : Module {
 		//Sine:
 		float sine = std::sin(2.f * M_PI * phase);
 
-		//Triangle:
-		float triangleWave = 4.f * std::abs(phase - 0.5f) - 1.f;
-
 		//Task 3: create a Square wave using polyBleep to avoid aliasing at high friquencies cuttig the edge of the square:
 		//Regular funtions -> float square = (phase < 0.5f) ? 1.0f : -1.0f -> this will cause aliasing 
 		//SQUARE:
-		float dt = freq * 4.f * args.sampleTime;
+		float dt = freq * args.sampleTime * 2.f;
 		float square = (phase < 0.5f) ? 1.f : -1.f ;
 
 		square += polyBLEP(phase , dt);
@@ -114,11 +114,26 @@ struct MyOsc : Module {
         //    Falling edge means we SUBTRACT the correction to ramp +1 → -1 smoothly.
         square -= polyBLEP(p2, dt);
 
+		//Task 4 triangle 
+		// --- Triangle by integrating the band-limited square ---
+        // Equation: newValue = leak * oldValue + k * square
+        //   - 'oldValue' is triState (previous triangle value)
+        //   - 'square' is the current sample of the band-limited square wave
+        //   - 'leak' is slightly < 1, to prevent slow drift (removes DC offset)
+        //   - 'k' controls the slope; here k = (2 * freq) * sampleTime keeps amplitude stable
+        const float leak = 0.9995f; // NEW: tiny decay factor to stop drift
+
+        // NEW: update the triangle state (discrete-time leaky integrator)
+        triangleState = leak * triangleState + (4.f * freq) * square * args.sampleTime;
+
+        // NEW: clamp keeps it safe in [-1,1] range, avoids runaway values
+        float triangle = clamp(triangleState, -1.f, 1.f);
+
 
 
         //OUTPUT:
 		outputs[SINE_OUTPUT].setVoltage(5.f * sine);
-		outputs[TRIANGLE_OUTPUT].setVoltage(5.f * triangleWave);
+		outputs[TRIANGLE_OUTPUT].setVoltage(5.f * triangle);
 		outputs[SQUARE_OUTPUT].setVoltage(5.f * square);
 
 
